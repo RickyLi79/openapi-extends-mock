@@ -15,6 +15,9 @@
 - [POSTMAN](https://www.postman.com/)
 - [easy-mock](https://github.com/easy-mock/easy-mock)
 
-## 依赖本人项目：
+## 依赖本人项目
 - [egg-openapi-router](https://npmjs.org/package/egg-openapi-router)
 - [@rickyli79/json-schema-mock](https://github.com/RickyLi79/json-schema-mock)
+
+## 更新记录
+[CHANGELOG.md](./CHANGELOG.md)

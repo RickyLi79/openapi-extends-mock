@@ -1,0 +1,89 @@
+openapi: 3.0.3
+info:
+  title: context mock
+  version: 0.1.0
+x-path-prefix: /debug
+x-controller-folder: /debug
+x-mute-env: prod
+paths:
+  /test:
+    get:
+      x-controller: default
+      responses:
+        200:
+          description: ok
+  /user/restore:
+    get:
+      security:
+        - user_auth:
+            - test      
+      tags:
+        - user
+      x-controller: user
+      responses:
+        200:
+          description: ok
+  /user:
+    get:
+      tags:
+        - user
+      x-controller: user
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            minimum: 5
+            maximum: 100
+      responses:
+        200:
+          description: list of users
+          content:
+            application/json:
+              schema:
+                $ref: "components.oas3.json#/components/schemas/UserInfoList"
+  /user/login:
+    post:
+      tags:
+        - user
+      x-controller: user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - account
+              properties:
+                account:
+                  type: string
+                  pattern: "[a-zA-Z0-9_]{4,15}"
+
+      responses:
+        302:
+          description: login success
+          content:
+            application/json:
+              schema:
+                $ref: "components.oas3.json#/components/schemas/UserInfo"
+        406:
+          description: invalid accout
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - invalidField
+                properties:
+                  invalidField:
+                    enum:
+                      - account
+  

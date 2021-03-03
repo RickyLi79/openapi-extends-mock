@@ -1,0 +1,72 @@
+openapi: 3.0.3
+info:
+  title: context mock
+  version: 0.1.0
+tags:
+  - name: user
+  - name: user/info
+x-path-prefix: /user/info
+x-controller-folder: /user
+paths:
+  /:
+    get:
+      tags:
+        - user/info
+      x-controller: info
+      responses:
+        200:
+          description: user info
+          content:
+            application/json:
+              schema:
+                $ref: "components.oas3.json#/components/schemas/UserInfo"
+  /password:
+    put:
+      tags:
+        - user/info
+      x-controller: info
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - oldPassword
+                - newPassword
+              properties:
+                oldPassword:
+                  type: string
+                newPassword:
+                  type: string
+                  pattern: "[a-zA-Z0-9]{5,17}"
+      responses:
+        202:
+          description: password reset
+        304:
+          description: not modified
+        406:
+          description: invalid oldPassword
+  /nickname:
+    put:
+      tags:
+        - user/info
+      x-controller: info
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - nickname
+              properties:
+                nickname:
+                  type: string
+                  minLength: 3
+                  maxLength: 30
+      responses:
+        202:
+          description: nickname reset
+        304:
+          description: not modified

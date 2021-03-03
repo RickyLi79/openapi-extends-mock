@@ -1,0 +1,86 @@
+openapi: 3.0.3
+info:
+  title: context mock
+  version: 0.1.0
+tags:
+  - name: user
+  - name: user/info
+x-path-prefix: /user
+x-controller-folder: /user
+paths:
+  /register:
+    put:
+      tags:
+        - user
+      # x-controller: default
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - account
+                - password
+              properties:
+                account:
+                  type: string
+                  pattern: "[a-zA-Z0-9_]{4,15}"
+                password:
+                  type: string
+                  pattern: "[a-zA-Z0-9]{5,17}"
+      responses:
+        201:
+          description: created
+        409:
+          description: conflict
+  /login:
+    post:
+      tags:
+        - user
+      # x-controller: default
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - account
+                - password
+              properties:
+                account:
+                  type: string
+                  pattern: "[a-zA-Z0-9_]{4,15}"
+                password:
+                  type: string
+                  pattern: "[a-zA-Z0-9]{5,17}"
+
+      responses:
+        302:
+          description: login success
+          content:
+            application/json:
+              schema:
+                $ref: "components.oas3.json#/components/schemas/UserInfo"
+        406:
+          description: invalid accout, or invalid password
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - invalidField
+                properties:
+                  invalidField:
+                    enum:
+                      - account
+                      - password
+  /logout:
+    get:
+      tags:
+        - user
+      # x-controller: default
+      responses:
+        202:
+          description: use logout success

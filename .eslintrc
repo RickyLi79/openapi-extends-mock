@@ -1,0 +1,12 @@
+{
+  "extends": "eslint-config-egg/typescript",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    "strict": "off",
+    "no-unused-vars": "off",
+    "newline-per-chained-call": "error",
+    "no-multiple-empty-lines": "error"
+  }
+}

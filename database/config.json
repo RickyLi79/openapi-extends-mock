@@ -1,0 +1,41 @@
+{
+  "development": {
+    "dialect": "mysql",
+    "host": "localhost",
+    "port": 3307,
+    "username": "root",
+    "password": "111111",
+    "database": "openapi-extends-mock-dev",
+    "operatorsAliases": false,
+    "define": {
+      "timestamps": true,
+      "freezeTableName": true
+    }
+  },
+  "test": {
+    "dialect": "mysql",
+    "host": "localhost",
+    "port": 3307,
+    "username": "root",
+    "password": "111111",
+    "database": "openapi-extends-mock-test",
+    "operatorsAliases": false,
+    "define": {
+      "timestamps": true,
+      "freezeTableName": true
+    }
+  },
+  "production": {
+    "dialect": "mysql",
+    "host": "localhost",
+    "port": 3307,
+    "username": "root",
+    "password": "111111",
+    "database": "openapi-extends-mock-prod",
+    "operatorsAliases": false,
+    "define": {
+      "timestamps": true,
+      "freezeTableName": true
+    }
+  }
+}

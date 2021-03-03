@@ -1,0 +1,57 @@
+openapi: 3.0.0
+info:
+  title: context mock
+  version: 0.1.0
+tags:
+  - name: user/project
+x-path-prefix: /user/project
+x-controller-folder: /user
+paths:
+  /:
+    get:
+      tags:
+        - user/project
+      x-controller: project
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            minimum: 5
+            maximum: 100
+      responses:
+        200:
+          description: user projects
+          content:
+            application/json:
+              schema:
+                $ref: "components.oas3.json#/components/schemas/ProjectInfoList"
+    put:
+      tags:
+        - user/project      
+      x-controller: project
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+      responses:
+        201:
+          description: created
+          content:
+            application/json:
+              schema:
+                $ref: "components.oas3.json#/components/schemas/ProjectInfo"

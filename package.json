@@ -1,6 +1,6 @@
 {
   "name": "openapi-extends-mock",
-  "version": ".1.0",
+  "version": "0.1.0",
   "description": "",
   "private": true,
   "egg": {
@@ -12,7 +12,7 @@
     "stop": "egg-scripts stop --title=egg-server-openapi-extends-mock",
     "dev": "egg-bin dev",
     "debug": "egg-bin debug",
-    "test-local": "egg-bin test",
+    "test-local": "egg-bin test --bail",
     "test": "npm run lint -- --fix && npm run test-local",
     "cov": "egg-bin cov",
     "tsc": "ets && tsc -p tsconfig.json",
@@ -23,16 +23,22 @@
     "ets2": "ets -e store",
     "ets": "ets clean && ets -w",
     "build": "ets -o typings/index.d.ts && tsc -p tsconfig.build.json",
-    "sem:test": "cross-env NODE_ENV=test sequelize db:migrate"
+    "sem:test": "cross-env NODE_ENV=test sequelize db:migrate",
+    "sem:test:undo": "cross-env NODE_ENV=test sequelize db:migrate",
+    "sem:test:seed": "cross-env NODE_ENV=test sequelize db:seed:all",
+    "sem:test:seed:undo": "cross-env NODE_ENV=test sequelize db:seed:undo:all",
+    "sem:dev": "cross-env NODE_ENV=development sequelize db:migrate",
+    "sem:dev:undo": "cross-env NODE_ENV=development sequelize db:migrate:undo"
   },
   "dependencies": {
+    "@types/chance": "^1.1.1",
     "egg": "^2.6.1",
     "egg-openapi-router": "^1.0.11",
     "egg-passport": "^2.1.1",
     "egg-passport-local": "^1.2.1",
     "egg-redis": "^2.4.0",
     "egg-scripts": "^2.6.0",
-    "egg-sequelize-ts": "^0.2.3-0",
+    "egg-sequelize": "^6.0.0",
     "egg-session-redis": "^2.1.0",
     "mysql2": "^2.2.5",
     "uuid": "^8.3.2"

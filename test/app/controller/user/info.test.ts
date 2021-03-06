@@ -1,22 +1,9 @@
 import { app, assert } from 'egg-mock/bootstrap';
 import factory from 'factory-girl';
-import factories, { SeqName } from '../../factories';
+import { ModelTypes, SeqName, UserPassword } from '../../factories';
+import '../../.setup';
 
-describe.only('test/app/controller/user/infno.test.ts', () => {
-
-
-  before(() => {
-    factories(app);
-  });
-
-  afterEach(async () => {
-    // clear database after each test case
-    factory.resetSequence(SeqName.UserAccount);
-    await Promise.all([
-      app.model.User.Account.destroy({ truncate: true, force: true }),
-    ]);
-  });
-
+describe('test/app/controller/user/info.test.ts', () => {
 
   describe('GET /user/info', () => {
 
@@ -52,11 +39,10 @@ describe.only('test/app/controller/user/infno.test.ts', () => {
     });
 
     it('202', async () => {
-      await factory.create(SeqName.UserAccount);
-      const account = 'account_1';
+      const { account } = await factory.create<ModelTypes.UserAccount>(SeqName.UserAccount);
       app.mockUserContext({ account });
-      const oldPassword = 'password_1';
-      const newPassword = 'newPassword';
+      const oldPassword = UserPassword;
+      const newPassword = UserPassword + 'abc123';
 
       await app.httpRequest()
         .put(url)
@@ -65,10 +51,9 @@ describe.only('test/app/controller/user/infno.test.ts', () => {
     });
 
     it('304', async () => {
-      await factory.create(SeqName.UserAccount);
-      const account = 'account_1';
+      const { account } = await factory.create<ModelTypes.UserAccount>(SeqName.UserAccount);
       app.mockUserContext({ account });
-      const oldPassword = 'password_1';
+      const oldPassword = UserPassword;
       const newPassword = oldPassword;
 
       await app.httpRequest()
@@ -78,11 +63,10 @@ describe.only('test/app/controller/user/infno.test.ts', () => {
     });
 
     it('406', async () => {
-      await factory.create(SeqName.UserAccount);
-      const account = 'account_1';
+      const { account } = await factory.create<ModelTypes.UserAccount>(SeqName.UserAccount);
       app.mockUserContext({ account });
-      const oldPassword = 'oldPassword';
-      const newPassword = '12345';
+      const oldPassword = UserPassword + 'abc123';
+      const newPassword = UserPassword + '321cba';
 
       await app.httpRequest()
         .put(url)
@@ -103,8 +87,7 @@ describe.only('test/app/controller/user/infno.test.ts', () => {
     });
 
     it('202', async () => {
-      await factory.create(SeqName.UserAccount);
-      const account = 'account_1';
+      const { account } = await factory.create<ModelTypes.UserAccount>(SeqName.UserAccount);
       app.mockUserContext({ account });
       const nickname = factory.chance('name')();
 
@@ -115,10 +98,8 @@ describe.only('test/app/controller/user/infno.test.ts', () => {
     });
 
     it('304', async () => {
-      const user: { account: string, nickname: string } = await factory.create(SeqName.UserAccount);
-      const { account, nickname } = user;
+      const { account, nickname } = await factory.create<ModelTypes.UserAccount>(SeqName.UserAccount);
       app.mockUserContext({ account });
-
       await app.httpRequest()
         .put(url)
         .send({ nickname })

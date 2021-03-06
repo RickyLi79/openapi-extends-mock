@@ -15,7 +15,7 @@ import 'egg-static';
 import 'egg-jsonp';
 import 'egg-view';
 import 'egg-openapi-router';
-import 'egg-sequelize-ts';
+import 'egg-sequelize';
 import 'egg-redis';
 import 'egg-session-redis';
 import 'egg-passport';

@@ -1,0 +1,8 @@
+{
+  "watchDirs": {
+    "model": {
+      "enabled": true,
+      "generator": "function"
+    }
+  }
+}

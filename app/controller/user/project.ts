@@ -13,8 +13,9 @@ export default class UserController extends Controller {
   public async 'PUT /'() {
     const { ctx } = this;
     const oasCtx = ctx.getOasCtx();
-    ctx.body = await ctx.service.user.project.create(oasCtx.request.body);
-    ctx.status = 201;
+    const result = await ctx.service.user.project.create(oasCtx.request.body);
+    ctx.status = result.status;
+    if (result.data !== undefined) ctx.body = result.data;
   }
 
 

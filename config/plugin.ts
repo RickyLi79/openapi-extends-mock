@@ -13,7 +13,7 @@ const plugin: EggPlugin = {
 
   sequelize: {
     enable: true,
-    package: 'egg-sequelize-ts',
+    package: 'egg-sequelize',
   },
 
   session: {

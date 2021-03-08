@@ -1,5 +1,6 @@
-import { app, assert } from 'egg-mock/bootstrap';
+import { app } from 'egg-mock/bootstrap';
 import factory from 'factory-girl';
+import assert from 'power-assert';
 import '../../.setup';
 import { ModelTypes, SeqName } from '../../factories';
 
@@ -24,7 +25,7 @@ describe('test/app/controller/user/project.test.ts', () => {
         .get(url)
         .expect(200)
         .expect(res => {
-          assert.equal(res.body.data.length, 5);
+          assert.strictEqual(res.body.data.length, 5);
         });
 
     });

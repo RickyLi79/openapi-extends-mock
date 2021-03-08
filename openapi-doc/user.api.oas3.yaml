@@ -1,0 +1,75 @@
+openapi: 3.0.0
+info:
+  title: context mock
+  version: 0.1.0
+tags:
+  - name: user/api
+x-path-prefix: /user/api
+x-controller-folder: /user
+paths:
+  /{project}:
+    get:
+      tags:
+        - user/api
+      x-controller: api
+      parameters:
+        - name: project
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            minimum: 5
+            maximum: 100
+      responses:
+        200:
+          description: user apis in project
+          content:
+            application/json:
+              schema:
+                $ref: "components.oas3.json#/components/schemas/ProjectInfoList"
+    put:
+      tags:
+        - user/api      
+      x-controller: api
+      parameters:
+        - name: project
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - content
+              properties:
+                name:
+                  type: string
+                content:
+                  type: string
+      responses:
+        201:
+          description: created
+          content:
+            application/json:
+              schema:
+                $ref: "components.oas3.json#/components/schemas/ProjectInfo"
+        409:
+          description: project name duplicate.

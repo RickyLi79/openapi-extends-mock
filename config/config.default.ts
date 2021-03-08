@@ -23,7 +23,7 @@ export default (appInfo: EggAppInfo) => {
     username: 'root',
     password: '111111',
     database: 'openapi-extends-mock-dev',
-    operatorsAliases: false,
+    // operatorsAliases: false,
     timezone: '+08:00',
     define: {
       timestamps: true,

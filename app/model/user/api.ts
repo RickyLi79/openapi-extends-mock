@@ -1,60 +1,97 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { nextTick } from 'process';
-import { Association, Sequelize } from 'sequelize';
 import { Application } from '../../../typings/app';
-import { ITimestamps, ModelInstance, SqlModel } from './enum';
+import { SqlModel, ModelInstance, ITimestamps } from './enum';
+import { Association, Sequelize } from 'sequelize';
+import { UserAccount } from './account';
+import { nextTick } from 'process';
 import { UserProject } from './project';
 
 
 interface IAtts extends ITimestamps {
-  readonly id?: number;
-  account: string;
-  password: string;
-  nickname: string;
+  readonly id: number;
+  readonly uuid: string;
+  name: string;
+  owner_id: number;
+  project_id: number;
+
+  type: string;
+  format: string;
+  version: string;
+  content: string;
 }
 
 
-abstract class IInstance extends ModelInstance<IAtts, 'id' | 'created_at' | 'updated_at'> { }
+abstract class IInstance extends ModelInstance<IAtts, 'id' | 'created_at' | 'updated_at' | 'uuid'> { }
 
-export class UserAccount extends IInstance implements IAtts {
+export class ProjectApi extends IInstance implements IAtts {
+  type: string;
+  format: string;
+  version: string;
+  content: string;
 
   readonly id: number;
+  readonly uuid: string;
   readonly created_at: Date;
   readonly updated_at: Date;
 
-  account: string;
-  password: string;
-  nickname: string;
+  name: string;
+  owner_id: number;
+  project_id: number;
 
-  readonly projects: UserProject[];
+  readonly owner: UserAccount;
+  readonly project: UserProject;
   public static associations: {
-    projects: Association<UserAccount, UserProject>;
+    owner: Association<ProjectApi, UserAccount>;
+    project: Association<ProjectApi, UserProject>;
   };
 
 }
 export default (app: Application, sequelize:Sequelize) => {
   const DataTypes = app.Sequelize;
-  UserAccount.init(
+  ProjectApi.init(
     {
       id: {
         type: DataTypes.INTEGER.UNSIGNED,
-        // defaultValue: null,
-        // allowNull: true,
+        // allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         comment: '系统自动分配的ID',
       },
-      account: {
+      uuid: {
+        type: DataTypes.UUIDV4,
+        allowNull: false,
+        defaultValue: DataTypes.UUIDV4,
+        unique: true,
+      },
+      name: {
         type: DataTypes.STRING(30),
         allowNull: false,
-        unique: true,
-        comment: 'user自己起名的帐号',
       },
-      password: {
-        type: DataTypes.CHAR(128),
+      owner_id: {
+        type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false,
-        comment: '密码',
       },
+      project_id: {
+        type: DataTypes.INTEGER.UNSIGNED,
+        allowNull: false,
+      },
+      type: {
+        type: DataTypes.ENUM('3.0', '2.0'),
+        allowNull: false,
+      },
+      format: {
+        type: DataTypes.ENUM('JSON', 'YAML'),
+        allowNull: false,
+      },
+      version: {
+        type: DataTypes.STRING(20),
+        allowNull: false,
+      },
+      content: {
+        type: DataTypes.TEXT({ length: 'long' }),
+        allowNull: false,
+      },
+
       created_at: {
         type: DataTypes.DATE,
         allowNull: true,
@@ -63,30 +100,21 @@ export default (app: Application, sequelize:Sequelize) => {
         type: DataTypes.DATE,
         allowNull: true,
       },
-      nickname: {
-        type: DataTypes.STRING(30),
-        allowNull: false,
-        comment: '昵称',
-      },
     }, {
       sequelize,
-      tableName: SqlModel.User_Account,
+      tableName: SqlModel.Project_Api,
     });
 
   nextTick(() => {
-    UserAccount.hasMany(app.model.User.Project, {
-      foreignKey: 'owner_id',
-      as: 'projects', // this determines the name in `associations`!
-      // constraints: false,
-    });
+    ProjectApi.belongsTo(app.model.User.Account);
+    ProjectApi.belongsTo(app.model.User.Project);
   });
 
-  return UserAccount;
+  return ProjectApi;
 };
 
 
 /*
-
 
 export default (app: Application) => {
   const DataTypes = app.Sequelize;

@@ -6,7 +6,7 @@
     "username": "root",
     "password": "111111",
     "database": "openapi-extends-mock-dev",
-    "operatorsAliases": false,
+    // "operatorsAliases": false,
     "define": {
       "timestamps": true,
       "freezeTableName": true
@@ -19,7 +19,7 @@
     "username": "root",
     "password": "111111",
     "database": "openapi-extends-mock-test",
-    "operatorsAliases": false,
+    // "operatorsAliases": false,
     "define": {
       "timestamps": true,
       "freezeTableName": true
@@ -32,7 +32,7 @@
     "username": "root",
     "password": "111111",
     "database": "openapi-extends-mock-prod",
-    "operatorsAliases": false,
+    // "operatorsAliases": false,
     "define": {
       "timestamps": true,
       "freezeTableName": true

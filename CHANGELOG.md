@@ -2,6 +2,11 @@
 
 ***
 
+### 2021-03-09
+开始做project-api部分，DB的数据迁移真是个麻烦事呢。
+
+***
+
 ### 2021-03-07
 #### 用`sequelize`替换`sequelize-ts`
 - 发现`sequelize-ts`里面的`sequelize`版本太久了，竟然是4.x.x。  

@@ -4,7 +4,7 @@ info:
   version: 0.1.0
 tags:
   - name: user/api
-x-path-prefix: /user/api
+x-path-prefix: /user/project
 x-controller-folder: /user
 paths:
   /{project}:
@@ -38,7 +38,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "components.oas3.json#/components/schemas/ProjectInfoList"
+                $ref: "components.oas3.json#/components/schemas/ApiInfoList"
     put:
       tags:
         - user/api      
@@ -70,6 +70,6 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "components.oas3.json#/components/schemas/ProjectInfo"
+                $ref: "components.oas3.json#/components/schemas/ApiInfo"
         409:
           description: project name duplicate.

@@ -134,7 +134,28 @@
             "example": "1.0.0"
           }
         }
-      }
+      },
+      "ApiInfoList": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Pagination"
+          },
+          {
+            "required": [
+              "data"
+            ],
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ApiInfo"
+                }
+              }
+            }
+          }
+        ]
+      },
     }
   }
 }

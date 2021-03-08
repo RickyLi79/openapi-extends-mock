@@ -4,6 +4,7 @@ import { SqlModel, ModelInstance, ITimestamps } from './enum';
 import { Association, Sequelize } from 'sequelize';
 import { UserAccount } from './account';
 import { nextTick } from 'process';
+import { ProjectApi } from './api';
 
 
 interface IAtts extends ITimestamps {
@@ -28,8 +29,10 @@ export class UserProject extends IInstance implements IAtts {
   owner_id!: number;
 
   readonly owner: UserAccount;
+  readonly apis: ProjectApi[];
   public static associations: {
     owner: Association<UserProject, UserAccount>;
+    apis: Association<UserProject, ProjectApi>;
   };
 }
 export default (app: Application, sequelize:Sequelize) => {
@@ -72,6 +75,7 @@ export default (app: Application, sequelize:Sequelize) => {
 
   nextTick(() => {
     UserProject.belongsTo(app.model.User.Account);
+    UserProject.hasMany(app.model.User.Api, { foreignKey: 'project_id', as: 'apis' });
   });
 
   return UserProject;
